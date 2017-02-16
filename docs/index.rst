@@ -9,6 +9,7 @@ Contents:
     :maxdepth: 1
 
     readme
+    template
     uploaders
 
 

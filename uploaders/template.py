@@ -1,7 +1,7 @@
 
 '''
-Upload script for ACP Annual County HDD/CDD data
-================================================
+Template uploader script for Climate Impact Lab projects
+========================================================
 
 '''
 
