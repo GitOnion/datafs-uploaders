@@ -1,4 +1,4 @@
 datafs==0.6.8
-metacsv
+metacsv==0.0.16
 xarray
 click
