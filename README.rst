@@ -15,9 +15,9 @@ Library of DataFS batch uploaders
 Base Template
 ~~~~~~~~~~~~~
 
-* `template.py <http://github.com/ClimateImpactLab/datafs-uploaders/src/master/uploaders/template.py>`_
+* `template.py <http://github.com/ClimateImpactLab/datafs-uploaders/blob/master/uploaders/template.py>`_
 
 Additional uploaders
 ~~~~~~~~~~~~~~~~~~~~
 
-* `hddcdd.py <http://github.com/ClimateImpactLab/datafs-uploaders/src/master/uploaders/hddcdd.py>`_ - script for uploading ACP HDDCDD data - Michael Delgado
+* `hddcdd.py <http://github.com/ClimateImpactLab/datafs-uploaders/blob/master/uploaders/hddcdd.py>`_ - script for uploading ACP HDDCDD data - Michael Delgado
