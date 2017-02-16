@@ -12,6 +12,14 @@ uploaders.hddcdd module
     :undoc-members:
     :show-inheritance:
 
+uploaders.template module
+-------------------------
+
+.. automodule:: uploaders.template
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
