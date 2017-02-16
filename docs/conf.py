@@ -300,5 +300,5 @@ texinfo_documents = [
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/2.7', None),
-    'datafs': ('http://datafs.readthedocs.io/en/latest', None)
+    'DataFS': ('http://datafs.readthedocs.io/en/latest', None)
 }

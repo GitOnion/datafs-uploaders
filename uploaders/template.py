@@ -205,8 +205,8 @@ def get_metadata(fp):
     '''
     Return a dictionary of metadata from a filepath
 
-    This metadata will be provided to other functions, such as ``namer`` and 
-    ``tagger``, and will also be uploaded as archive metadata.
+    This metadata will be provided to other functions, such as :py:func:`namer`
+    and :py:func:`tagger`, and will also be uploaded as archive metadata.
 
     Parameters
     ----------
