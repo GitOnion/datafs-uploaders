@@ -3,6 +3,23 @@
 Template uploader script for Climate Impact Lab projects
 ========================================================
 
+Instructions
+------------
+
+1.  Fill out user-defined parameters
+
+2.  Modify user-defined functions to ensure that the archive names, tags,
+    metadata, and dependencies will be correct
+
+    - Check out the library functions to pull metadata automatically from 
+      netCDF, metaCSV, and fgh files
+
+3.  Do a "dry run" by running `python my_script_name.py -d`
+
+4.  Do a live run by running `nice nohup python my_script_name.py &`
+
+5.  Look for the output logs in nohup.out
+
 '''
 
 import glob
@@ -72,7 +89,7 @@ BUMPVERSION = 'major'
 '''
 Define how the version number changes. Your options are 'major', 'minor', and
 'patch', for the three segments of the version number (e.g. 1.0.0), 
-respectively.
+respectively. If you're not sure, major is fine.
 '''
 
 
@@ -85,7 +102,77 @@ Modify these functions to define how the script should handle each file
 
 This is important - the script won't work unless you make sure these are right.
 
+:py:func:`get_metadata` accepts path to the upload file as its only argument
+and generates metadata from that file path and the file contents. The metadata
+dictionary returned by this function are then made available to all of the
+other user-defined functions.
+
+:py:func:`namer` defines the name that will be used for your archive
+
+:py:func:`tagger` defines the tags that can be used when searching for this
+archive
+
+:py:func:`get_dependencies` defines the dependencies for this archive, if any
+
 '''
+
+
+def get_metadata(fp):
+    '''
+    Return a dictionary of metadata from a filepath
+
+    This metadata will be provided to other functions, such as :py:func:`namer`
+    and :py:func:`tagger`, and will also be uploaded as archive metadata.
+
+    Parameters
+    ----------
+
+    fp : str
+
+        The local path to the file being uploaded
+
+    Returns
+    -------
+
+    metadata : dict
+
+        Dictionary of metadata used in the rest of this script and also 
+        uploaded to DataFS as archive metadata
+
+    '''
+
+    # Use a library function to get metadata from the file or header
+    metadata = get_netcdf_metadata(fp)
+
+    # Modify the metadata here
+    
+    # metadata['description'] = 'My description of this data'
+
+    # You can also get metadata from filename components
+
+    fname_metadata = {}
+
+    # If you uncomment the following, you could use the list elements to 
+    # name the metadata extracted from the file name:
+
+    # fname_components = [
+    #     'geography',
+    #     'ncdc',
+    #     'frequency',
+    #     'weather',
+    #     'variable',
+    #     'model',
+    #     'scenario',
+    #     'time_horizon']
+    #
+    # parsed_fname = os.path.splitext(os.path.basename(fp))[0].split('_')
+    #
+    # fname_metadata = dict(zip(fname_components, parsed_fname))
+
+    # add metadata from filename to metadata dict
+    metadata.update(fname_metadata)
+
+    return metadata
 
 
 def namer(fp, metadata):
@@ -199,61 +286,6 @@ def get_dependencies(fp, metadata):
     dependencies = {}
 
     return dependencies
-
-
-def get_metadata(fp):
-    '''
-    Return a dictionary of metadata from a filepath
-
-    This metadata will be provided to other functions, such as :py:func:`namer`
-    and :py:func:`tagger`, and will also be uploaded as archive metadata.
-
-    Parameters
-    ----------
-
-    fp : str
-
-        The local path to the file being uploaded
-
-    Returns
-    -------
-
-    metadata : dict
-
-        Dictionary of metadata used in the rest of this script and also 
-        uploaded to DataFS as archive metadata
-
-    '''
-
-    # Use a library function to get metadata from the file or header
-    metadata = get_netcdf_metadata(fp)
-
-    # Modify the metadata here
-    
-    # metadata['description'] = 'My description of this data'
-
-    # You can also get metadata from filename components
-
-    fname_components = {}
-
-    # fname_components = [
-    #     'geography',
-    #     'ncdc',
-    #     'frequency',
-    #     'weather',
-    #     'variable',
-    #     'model',
-    #     'scenario',
-    #     'time_horizon']
-
-    # parsed_fname = os.path.splitext(os.path.basename(fp))[0].split('_')
-
-    # fname_metadata = dict(zip(fname_components, parsed_fname))
-
-    # add metadata from filename to metadata dict
-    metadata.update(fname_metadata)
-
-    return metadata
 
 
 '''
