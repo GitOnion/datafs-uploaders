@@ -1,4 +1,4 @@
-datafs==0.6.8
+datafs==0.6.9
 metacsv==0.0.16
 xarray==0.9.1
 click==6.7
