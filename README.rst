@@ -12,6 +12,9 @@ DataFS Batch Uploader Library
 
 Library of DataFS batch uploaders
 
+Example Uploaders
+-----------------
+
 Base Template
 ~~~~~~~~~~~~~
 
@@ -21,3 +24,37 @@ Additional uploaders
 ~~~~~~~~~~~~~~~~~~~~
 
 * `hddcdd.py <http://github.com/ClimateImpactLab/datafs-uploaders/blob/master/uploaders/hddcdd.py>`_ - script for uploading ACP HDDCDD data - Michael Delgado
+
+
+Instructions
+------------
+
+1.  Fill out user-defined parameters
+
+2.  Modify user-defined functions to ensure that the archive names, tags,
+    metadata, and dependencies will be correct
+
+    - Check out the library functions to pull metadata automatically from 
+      netCDF, metaCSV, and fgh files
+
+3.  Do a "dry run" by running `python my_script_name.py -d`
+
+4.  Do a live run by running `nice nohup python my_script_name.py &`
+
+5.  Look for the output logs in nohup.out
+
+
+Contributing your own
+---------------------
+
+1. Fork this repository, then clone it to your system
+
+2. Copy & rename one of the files most similar to your use case, giving it a
+   descriptive name so others will be able to understand what it is for. Modify
+   the file to suit your needs.
+
+3. Include a link to your example and some descriptive text in the list above
+
+4. Commit your changes, and push to your forked repo
+
+5. File a pull request to merge the changes back into the master list.
