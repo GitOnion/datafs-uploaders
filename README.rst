@@ -49,7 +49,7 @@ Instructions
 
         nice nohup python my_script_name.py &
 
-5.  Look for the output logs in nohup.out
+5.  Look for the output logs in ``nohup.out``
 
 
 Contributing your own
