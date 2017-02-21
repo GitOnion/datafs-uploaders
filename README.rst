@@ -37,9 +37,17 @@ Instructions
     - Check out the library functions to pull metadata automatically from 
       netCDF, metaCSV, and fgh files
 
-3.  Do a "dry run" by running `python my_script_name.py -d`
+3.  Do a "dry run":
 
-4.  Do a live run by running `nice nohup python my_script_name.py &`
+    .. code-block:: bash
+        
+        python my_script_name.py -d
+
+4.  Do a live run by running
+
+    .. code-block:: bash
+
+        nice nohup python my_script_name.py &
 
 5.  Look for the output logs in nohup.out
 
