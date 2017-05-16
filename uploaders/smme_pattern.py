@@ -74,8 +74,7 @@ ADDITIONAL_METADATA = {
     'team': 'climate',
     'probability_method': 'SMME',
     'geography': 'grid025',
-    'frequency': 'daily',
-    'scenario': rcp
+    'frequency': 'daily'
     }
 '''
 Supply additional metadata to include with the archive. This will override any
