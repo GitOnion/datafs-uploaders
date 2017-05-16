@@ -200,7 +200,7 @@ def namer(fp, metadata):
             **metadata)
 
 
-def tagger(fp, metadata):
+def tagger(fp, metadata, name):
     '''
     Create a list of tags for the archive
 
@@ -237,15 +237,16 @@ def tagger(fp, metadata):
 
     # split on slashes
     path_segments = relpath.replace('\\', '/').split('/')
+    new_path_segments = relpath.replace('\\', '/').split('/')
 
-    tags = path_segments
+    tags = path_segments + new_path_segments
 
     
     # add your own tags
     my_extra_tags = ADDITIONAL_METADATA.values()
     tags.extend(my_extra_tags)
 
-    return tags
+    return set(tags)
 
 
 def get_dependencies(fp, metadata):
@@ -372,7 +373,7 @@ def upload_file(api, fp, extra_metadata, dry_run=False):
     metadata.update(extra_metadata)
 
     name = namer(fp, metadata)
-    tags = tagger(fp, metadata)
+    tags = tagger(fp, metadata, name)
     
     dependencies = get_dependencies(fp, metadata)
 
