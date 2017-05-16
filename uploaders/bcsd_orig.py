@@ -307,11 +307,16 @@ functionality such as automatically parsing the headers of NetCDF or .fgh files
 
 def get_netcdf_metadata(fp):
     '''
-    Pull metadata from a NetCDF header
+    Pull metadata from a NetCDF header, and coerce all values to strings.
     '''
 
     with xr.open_dataset(fp) as ds:
-        return dict(ds.attrs)
+        orig = dict(ds.attrs)
+        new = {}
+        for k, v in orig.items():
+            new[str(k)] = str(v)
+
+        return new
 
 
 def get_fgh_metadata(fp):
