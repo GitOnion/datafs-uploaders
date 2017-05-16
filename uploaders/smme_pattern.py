@@ -51,6 +51,13 @@ Any files matching this pattern will be uploaded to DataFS
 '''
 
 IGNORE_PATH = '/global/scratch/jiacany'
+'''
+Prefix of the path that will be ignored in automatic metadata detection
+
+For example, if your filepaths all start with `/mnt/norgay_gcp/`, but this is
+not useful information, put this in the IGNORE_PATH to exclude these path
+components from tags and metadata
+'''
 
 CACHE = False
 '''
@@ -61,12 +68,6 @@ that we don't want to transfer frequently. Caching can always be turned on
 later.
 
 If you are unsure about whether to cache an archive, ask Justin.
-'''
-
-RAISE_ON_RECREATE = True
-'''
-Set to False if you are running this script a second time with updated data or
-metadata. The script will update the 
 '''
 
 ADDITIONAL_METADATA = {
@@ -237,6 +238,9 @@ def tagger(fp, metadata, name):
 
     # split on slashes
     path_segments = relpath.replace('\\', '/').split('/')
+
+
+    relpath = os.path.splitext(name)[0]
     new_path_segments = relpath.replace('\\', '/').split('/')
 
     tags = path_segments + new_path_segments
@@ -342,31 +346,24 @@ logger = logging.getLogger('uploader')
 logger.setLevel('INFO')
 
 
-def upload_file(api, fp, extra_metadata, dry_run=False):
+def upload_file(api, fp, extra_metadata, dry_run=False, recreate=recreate):
     '''
     Controls the behavior of the uploader for each file
 
     Parameters
     ----------
-
     api : object
-
         :py:class:`DataFS.DataAPI` object with which the archive will be 
         created and updated
-
     fp : str
-
         path to the file to upload
-
     extra_metadata : dict
-
         additional metadata that will override values obtained by 
         :py:func:`get_metadata`
-
-    dry_run : bool
-
-
-
+    dry_run : bool, optional
+        Print out would-be archive name, but take no action
+    recreate : bool, optional
+        Do not raise errors on archive re-creation (default False)
     '''
 
     metadata = get_metadata(fp)
@@ -388,7 +385,7 @@ def upload_file(api, fp, extra_metadata, dry_run=False):
             authority_name = 'osdc')
 
     except KeyError as e:
-        if RAISE_ON_RECREATE:
+        if recreate:
             raise e
 
         archive = api.get_archive(
@@ -405,7 +402,7 @@ def upload_file(api, fp, extra_metadata, dry_run=False):
     return name
 
 
-def upload_files(api, pattern, extra_metadata, dry_run=False):
+def upload_files(api, pattern, extra_metadata, dry_run=False, recreate=False):
     '''
     Loops through all files matching ``pattern`` and uploads them to the api
 
@@ -443,7 +440,8 @@ def upload_files(api, pattern, extra_metadata, dry_run=False):
                 api,
                 fp,
                 extra_metadata,
-                dry_run=dry_run)
+                dry_run=dry_run,
+                recreate=recreate)
 
             if dry_run:
                 message_header = 'Parsed'
@@ -465,11 +463,18 @@ def upload_files(api, pattern, extra_metadata, dry_run=False):
 
 @click.command(name='upload')
 @click.option('-d', '--dry-run', is_flag=True, default=False)
-def main(dry_run=False):
+@click.option('-r', '--recreate', is_flag=True, default=False,
+            help='Suppress error on re-creation of archives (default False)')
+def main(dry_run=False, recreate=False):
 
     api = datafs.get_api()
 
-    upload_files(api, PATTERN, ADDITIONAL_METADATA, dry_run=dry_run)
+    upload_files(
+        api,
+        PATTERN,
+        ADDITIONAL_METADATA,
+        dry_run=dry_run,
+        recreate=recreate)
 
 
 if __name__ == '__main__':
