@@ -346,7 +346,7 @@ logger = logging.getLogger('uploader')
 logger.setLevel('INFO')
 
 
-def upload_file(api, fp, extra_metadata, dry_run=False, recreate=recreate):
+def upload_file(api, fp, extra_metadata, dry_run=False, recreate=False):
     '''
     Controls the behavior of the uploader for each file
 
