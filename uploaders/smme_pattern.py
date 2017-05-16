@@ -196,7 +196,7 @@ def namer(fp, metadata):
         '{model}/' +
         '{time_horizon}.nc'
         ).format(
-            time_horizon=metadata['season'] + '/' + metadata['year'],
+            time_horizon=metadata['year'] + '/' + metadata['season'],
             **metadata)
 
 
