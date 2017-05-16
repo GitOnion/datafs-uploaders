@@ -43,14 +43,14 @@ Set these parameters to define the behavior of the upload script
 
 '''
 
-rcp = 'rcp85'
-
-PATTERN = '/global/scratch/jiacany/nasa_bcsd/pattern/{}/*/*/*.nc'.format(rcp)
+PATTERN = '/global/scratch/jiacany/nasa_bcsd/pattern/SMME_surrogate/*/*/*/*.nc'
 '''
 The unix-style path pattern that will be used to find files to upload
 
 Any files matching this pattern will be uploaded to DataFS
 '''
+
+IGNORE_PATH = '/global/scratch/jiacany'
 
 CACHE = False
 '''
@@ -72,7 +72,7 @@ metadata. The script will update the
 ADDITIONAL_METADATA = {
     'project': 'GCP',
     'team': 'climate',
-    'probability_method': 'unweighted',
+    'probability_method': 'SMME',
     'geography': 'grid025',
     'frequency': 'daily',
     'scenario': rcp
@@ -163,9 +163,10 @@ def get_metadata(fp):
 
     fname_components = [
         'variable',
-        'component',
-        'experiment',
+        'source',
         'model',
+        'scenario',
+        'experiment',
         'season',
         'year']
     
@@ -230,7 +231,7 @@ def tagger(fp, metadata):
     '''
 
     # For example, build tags using the relative path segments
-    relpath = os.path.relpath(fp, start='/mnt/norgagy_gcp')
+    relpath = os.path.relpath(fp, start=IGNORE_PATH)
 
     # remove file extension
     relpath = os.path.splitext(relpath)[0]
@@ -242,7 +243,7 @@ def tagger(fp, metadata):
 
     
     # add your own tags
-    my_extra_tags = []
+    my_extra_tags = ADDITIONAL_METADATA.values()
     tags.extend(my_extra_tags)
 
     return tags
