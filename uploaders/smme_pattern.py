@@ -59,7 +59,7 @@ not useful information, put this in the IGNORE_PATH to exclude these path
 components from tags and metadata
 '''
 
-CACHE = False
+CACHE = True
 '''
 Flag indicating whether the files should be cached locally as they are uploaded
 
@@ -346,7 +346,13 @@ logger = logging.getLogger('uploader')
 logger.setLevel('INFO')
 
 
-def upload_file(api, fp, extra_metadata, dry_run=False, recreate=False):
+def upload_file(
+        api,
+        fp,
+        extra_metadata,
+        dry_run=False,
+        recreate=False,
+        cache=False):
     '''
     Controls the behavior of the uploader for each file
 
@@ -397,12 +403,19 @@ def upload_file(api, fp, extra_metadata, dry_run=False, recreate=False):
         fp,
         metadata=metadata,
         dependencies=dependencies,
-        bumpversion=BUMPVERSION)
+        bumpversion=BUMPVERSION,
+        cache=cache)
 
     return name
 
 
-def upload_files(api, pattern, extra_metadata, dry_run=False, recreate=False):
+def upload_files(
+        api,
+        pattern,
+        extra_metadata,
+        dry_run=False,
+        recreate=False,
+        cache=False):
     '''
     Loops through all files matching ``pattern`` and uploads them to the api
 
@@ -441,7 +454,8 @@ def upload_files(api, pattern, extra_metadata, dry_run=False, recreate=False):
                 fp,
                 extra_metadata,
                 dry_run=dry_run,
-                recreate=recreate)
+                recreate=recreate,
+                cache=cache)
 
             if dry_run:
                 message_header = 'Parsed'
@@ -462,10 +476,13 @@ def upload_files(api, pattern, extra_metadata, dry_run=False, recreate=False):
 
 
 @click.command(name='upload')
-@click.option('-d', '--dry-run', is_flag=True, default=False)
+@click.option('-d', '--dry-run', is_flag=True, default=False,
+            help='Prepare metadata and print would-be archive names only')
 @click.option('-r', '--recreate', is_flag=True, default=False,
-            help='Suppress error on re-creation of archives (default False)')
-def main(dry_run=False, recreate=False):
+            help='Suppress error on re-creation of archives')
+@click.option('-c', '--cache', is_flag=True, default=False,
+            help='Cache files locally on upload (requires a configured cache)')
+def main(dry_run=False, recreate=False, cache=False):
 
     api = datafs.get_api()
 
@@ -474,7 +491,8 @@ def main(dry_run=False, recreate=False):
         PATTERN,
         ADDITIONAL_METADATA,
         dry_run=dry_run,
-        recreate=recreate)
+        recreate=recreate,
+        cache=cache)
 
 
 if __name__ == '__main__':
