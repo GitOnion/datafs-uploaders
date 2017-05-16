@@ -152,7 +152,7 @@ def get_metadata(fp):
 
     fname_components = [
         'variable',
-        'frequency'
+        'frequency',
         'source',
         'scenario',
         'experiment',
