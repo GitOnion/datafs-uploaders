@@ -170,11 +170,11 @@ def get_metadata(fp):
     metadata.update(fname_metadata)
 
     if not metadata.get('description'):
-        if variable != 'tas':
-            metadata['description'] = 'BCSD original downloaded data'
-        else:
+        if metadata['variable'] == 'tas':
             metadata['description'] = (
                 'Average of BCSD original variables tasmin and tasmax')
+        else:
+            metadata['description'] = 'BCSD original downloaded data'
 
     return metadata
 
