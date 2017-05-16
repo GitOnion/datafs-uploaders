@@ -169,11 +169,12 @@ def get_metadata(fp):
     # add metadata from filename to metadata dict
     metadata.update(fname_metadata)
 
-    metadata['description'] = metadata.get(
-        'description',
-        ('BCSD original downloaded data'
-            if variable != 'tas' else
-            'Average of BCSD original variables tasmin and tasmax'))
+    if not metadata.get('description'):
+        if variable != 'tas':
+            metadata['description'] = 'BCSD original downloaded data'
+        else:
+            metadata['description'] = (
+                'Average of BCSD original variables tasmin and tasmax')
 
     return metadata
 
