@@ -385,7 +385,7 @@ def upload_file(api, fp, extra_metadata, dry_run=False, recreate=False):
             authority_name = 'osdc')
 
     except KeyError as e:
-        if recreate:
+        if not recreate:
             raise e
 
         archive = api.get_archive(
