@@ -59,17 +59,6 @@ not useful information, put this in the IGNORE_PATH to exclude these path
 components from tags and metadata
 '''
 
-CACHE = True
-'''
-Flag indicating whether the files should be cached locally as they are uploaded
-
-Set to True if the file will be used frequently, especially for large files
-that we don't want to transfer frequently. Caching can always be turned on 
-later.
-
-If you are unsure about whether to cache an archive, ask Justin.
-'''
-
 ADDITIONAL_METADATA = {
     'project': 'GCP',
     'team': 'climate',
